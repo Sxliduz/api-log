@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.algaworks.algalog.domain.model.Client;
 import com.algaworks.algalog.domain.repository.ClientRepository;
 
+import jakarta.validation.Valid;
+
 @RequestMapping("/clients")
 @RestController
 public class ClientController {
@@ -39,12 +41,12 @@ public class ClientController {
 	
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
-	public Client create(@RequestBody Client client) {
+	public Client create(@Valid @RequestBody Client client) {
 		return clientRepository.save(client);
 	}
 	
 	@PutMapping("/{clientId}")
-	public ResponseEntity<Client> update(@PathVariable Long clientId, @RequestBody Client client) {
+	public ResponseEntity<Client> update(@PathVariable Long clientId, @Valid @RequestBody Client client) {
 		if (!clientRepository.existsById(clientId)) {
 			return ResponseEntity.notFound().build();
 		}
