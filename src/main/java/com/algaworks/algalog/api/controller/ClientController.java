@@ -34,7 +34,7 @@ public class ClientController {
 		return clientRepository.findAll();
 	}
 	
-	@GetMapping("/{clientId}")
+	@GetMapping("/{clientsId}")
 	public ResponseEntity<Client> search(@PathVariable Long clientId) {
 		return clientRepository.findById(clientId)
 				.map(ResponseEntity::ok)
@@ -47,7 +47,7 @@ public class ClientController {
 		return clientService.save(client);
 	}
 	
-	@PutMapping("/{clientId}")
+	@PutMapping("/{clientsId}")
 	public ResponseEntity<Client> update(@PathVariable Long clientId, @Valid @RequestBody Client client) {
 		if (!clientRepository.existsById(clientId)) {
 			return ResponseEntity.notFound().build();
@@ -59,7 +59,7 @@ public class ClientController {
 		return ResponseEntity.ok(client);
 	}
 	
-	@DeleteMapping("/{clientId}")
+	@DeleteMapping("/{clientsId}")
 	public ResponseEntity<Void> delete(@PathVariable Long clientId) {
 		if (!clientRepository.existsById(clientId)) {
 			return ResponseEntity.notFound().build();

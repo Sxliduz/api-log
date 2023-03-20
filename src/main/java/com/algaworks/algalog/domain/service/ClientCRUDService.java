@@ -15,6 +15,10 @@ public class ClientCRUDService {
 
 	private ClientRepository clientRepository;
 	
+	public Client buscar(Long clientId) {
+		return clientRepository.findById(clientId).orElseThrow(() -> new BusinessException("Client not found"));
+	}
+	
 	@Transactional
 	public Client save(Client client) {
 		boolean emailInUse = clientRepository.findByEmail(client.getEmail()).stream().anyMatch(clientExist -> !clientExist.equals(client));
