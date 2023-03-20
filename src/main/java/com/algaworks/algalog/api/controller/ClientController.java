@@ -2,7 +2,6 @@ package com.algaworks.algalog.api.controller;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -17,15 +16,18 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.algaworks.algalog.domain.model.Client;
 import com.algaworks.algalog.domain.repository.ClientRepository;
+import com.algaworks.algalog.domain.service.ClientCRUDService;
 
 import jakarta.validation.Valid;
+import lombok.AllArgsConstructor;
 
+@AllArgsConstructor
 @RequestMapping("/clients")
 @RestController
 public class ClientController {
 	
-	@Autowired
 	private ClientRepository clientRepository;
+	private ClientCRUDService clientService;
 	
 	@GetMapping
 	public List<Client> list() {
@@ -42,7 +44,7 @@ public class ClientController {
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
 	public Client create(@Valid @RequestBody Client client) {
-		return clientRepository.save(client);
+		return clientService.save(client);
 	}
 	
 	@PutMapping("/{clientId}")
@@ -52,7 +54,7 @@ public class ClientController {
 		}
 		
 		client.setId(clientId);
-		client = clientRepository.save(client);
+		client = clientService.save(client);
 		
 		return ResponseEntity.ok(client);
 	}
@@ -63,7 +65,7 @@ public class ClientController {
 			return ResponseEntity.notFound().build();
 		}
 		
-		clientRepository.deleteById(clientId);
+		clientService.delete(clientId);
 		
 		return ResponseEntity.noContent().build();
 	}
